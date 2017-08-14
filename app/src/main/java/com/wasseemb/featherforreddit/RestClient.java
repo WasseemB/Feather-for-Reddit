@@ -1,5 +1,8 @@
 package com.wasseemb.featherforreddit;
 
+/**
+ * Created by Wasseem on 14/08/2017.
+ */
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.wasseemb.featherforreddit.SubredditJSON.Subreddit;
@@ -8,10 +11,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-/**
- * Created by Wasseem on 18/06/2017.
- */
 
 public class RestClient {
 

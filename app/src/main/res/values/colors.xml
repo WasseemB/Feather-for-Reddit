@@ -8,6 +8,9 @@
     <color name="greyPrimary">#263238</color>
     <color name="whiteFont">#F4F4F4</color>
     <color name="halfTrans">#7F000000</color>
+    <color name="greyIcon">#AAB8C3</color>
+  <color name="greyDivider">#D3D4D6</color>
+  <color name="darkGreyDivider">#404B50</color>
 
 
 </resources>

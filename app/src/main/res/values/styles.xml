@@ -1,16 +1,86 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-    <style name="TintTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+  <!-- Base application theme. -->
+  <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Customize your theme here. -->
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="android:textViewStyle">@style/DarkTextView</item>
+    <item name="cardStyle">@style/myCardStyleDark</item>
+    <item name="iconTint">@style/iconTintDark</item>
+    <item name="dividerColor">@style/dividerDark</item>
+
+
+  </style>
+
+  <style name="LightAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Customize your theme here. -->
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="android:textViewStyle">@style/LightTextView</item>
+    <item name="cardStyle">@style/myCardStyleLight</item>
+    <item name="iconTint">@style/iconTintLight</item>
+    <item name="dividerColor">@style/dividerLight</item>
+
+
+
+
+
+  </style>
+
+
+  <style name="DarkTextView" parent="@android:style/TextAppearance">
+    <item name="android:textColor">@color/whiteFont</item>
+  </style>
+  <style name="LightTextView" parent="@android:style/TextAppearance">
+    <item name="android:textColor">@color/greyPrimary</item>
+  </style>
+
+
+  <style name="TintTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <item name="colorAccent">@color/colorAccent</item>
+  </style>
+
+
+
+  <style name="myCardStyleDark" parent="CardView">
+    <!-- Card background color -->
+    <item name="cardBackgroundColor">@color/greyPrimary</item>
+    <!-- Ripple for API 21 of android, and regular selector on older -->
+    <item name="android:foreground">?android:selectableItemBackground</item>
+    <!-- Resting Elevation from Material guidelines -->
+    <!-- Add corner Radius -->
+  </style>
+
+  <style name="myCardStyleLight" parent="CardView">
+    <!-- Card background color -->
+    <item name="cardBackgroundColor">@color/whiteFont</item>
+    <!-- Ripple for API 21 of android, and regular selector on older -->
+    <item name="android:foreground">?android:selectableItemBackground</item>
+    <!-- Resting Elevation from Material guidelines -->
+    <!-- Add corner Radius -->
+  </style>
+
+
+  <style name="iconTintLight">
+    <item name="android:backgroundTint">@color/greyIcon</item>
+  </style>
+  <style name="iconTintDark">
+    <item name="android:backgroundTint">@color/whiteFont</item>
+  </style>
+
+  <style name="dividerLight">
+    <item name="android:background">@color/greyDivider</item>
+  </style>
+  <style name="dividerDark">
+    <item name="android:background">@color/darkGreyDivider</item>
+  </style>
+
 
 </resources>

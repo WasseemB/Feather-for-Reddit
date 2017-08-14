@@ -1,16 +1,17 @@
 package com.wasseemb.featherforreddit.Adapters;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.util.DiffUtil;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -18,13 +19,17 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.squareup.picasso.Picasso;
+import com.wasseemb.featherforreddit.DetailActivity;
 import com.wasseemb.featherforreddit.DiffCallback;
-import com.wasseemb.featherforreddit.ImageActivity;
+import com.wasseemb.featherforreddit.ImageViewActivity;
 import com.wasseemb.featherforreddit.R;
 import com.wasseemb.featherforreddit.RoundedImageView;
 import com.wasseemb.featherforreddit.SubredditJSON.Child;
 import com.wasseemb.featherforreddit.SubredditJSON.Preview;
 import java.util.List;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 /**
  * Created by Wasseem on 08/06/2017.
@@ -36,7 +41,6 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
   private Context context;
   public String id;
   public View viewToHide;
-  private int lastPosition = -1;
 
 
   // Provide a suitable constructor (depends on the kind of dataset)
@@ -50,7 +54,7 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
     // create a new view
 
     View itemView =
-        LayoutInflater.from(parent.getContext()).inflate(R.layout.subreddit_itemv, parent, false);
+        LayoutInflater.from(parent.getContext()).inflate(R.layout.subreddit_itemvv, parent, false);
 
 
 
@@ -68,9 +72,16 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
 
 
 
+  void run(String url,Callback callback) {
+    OkHttpClient client = new OkHttpClient();
+    Request request = new Request.Builder()
+        .url(url)
+        .build();
 
+      client.newCall(request).enqueue(callback);
+  }
   // Replace the contents of a view (invoked by the layout manager)
-  @Override public void onBindViewHolder(final ViewHolder holder, final int position) {
+  @Override public void onBindViewHolder(final ViewHolder holder, int position) {
     resetVisibility(holder);
     //Instead of accessing it everytime
     final Child mChild = dataset.get(position);
@@ -85,13 +96,7 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
         holder.mImageType.setImageResource(R.drawable.ic_gif_black_24dp);
         holder.mImageType.setColorFilter(ContextCompat.getColor(context, R.color.whiteFont));
         Picasso.with(context).load(thumbL(mChild.data.url)).into(holder.mImageView);
-        holder.mImageView.setOnClickListener(new View.OnClickListener() {
-          @Override public void onClick(View v) {
-            Intent mIntent = new Intent(v.getContext(), ImageActivity.class);
-            mIntent.setAction(mChild.data.url);
-            v.getContext().startActivity(mIntent);
-          }
-        });
+
       } else {
         Uri uri = Uri.parse(mChild.data.preview.images.get(0).source.url);
         Picasso.with(context).load(uri).into(holder.mImageView);
@@ -107,6 +112,27 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
       viewToHide = holder.mProgressBar;
       holder.mProgressBar.setVisibility(View.VISIBLE);
     }
+
+    holder.mImageView.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        Intent intent = new Intent(v.getContext(), ImageViewActivity.class);
+        intent.setAction(mChild.data.preview.images.get(0).source.url);
+        ActivityOptions options = ActivityOptions
+            .makeSceneTransitionAnimation((Activity)v.getContext(), holder.mImageView, "robot_trans");
+        // start the new activity
+        v.getContext().startActivity(intent, options.toBundle());      }
+    });
+
+    holder.itemView.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        Intent mIntent = new Intent(v.getContext(), DetailActivity.class);
+        mIntent.setAction(mChild.data.preview.images.get(0).source.url);
+        ActivityOptions options = ActivityOptions
+            .makeSceneTransitionAnimation((Activity)v.getContext(), holder.cardView, "robot_trans");
+        // start the new activity
+        v.getContext().startActivity(mIntent, options.toBundle());
+      }
+    });
 
 
   }
@@ -160,6 +186,7 @@ public class SubAdapter extends RecyclerView.Adapter<SubAdapter.ViewHolder> {
     @BindView(R.id.image_type) ImageView mImageType;
     @BindView(R.id.relativeLayout) RelativeLayout mRelativeLayout;
     @BindView(R.id.progressBar) ProgressBar mProgressBar;
+    @BindView(R.id.card_view) CardView cardView;
 
     public ViewHolder(View v) {
       super(v);

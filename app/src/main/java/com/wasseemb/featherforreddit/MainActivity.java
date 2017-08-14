@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Subreddi
 
   private EndlessRecyclerOnScrollListener endlessScrollListener;
   private String subreddit = "";
+  int x =1;
 
 
 
@@ -38,24 +39,39 @@ public class MainActivity extends AppCompatActivity implements Callback<Subreddi
   @BindView(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
   @BindView(R.id.recyclerView) RecyclerView recyclerView;
   @BindView(R.id.toolbar) Toolbar toolbar;
+  RestClient restClient = new RestClient();
+
+
+
 
 
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main_v);
+    setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
 
     setSupportActionBar(toolbar);
     if (getSupportActionBar() != null) {
       getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
+    Utils.onActivityCreateSetTheme(this);
+
 
 
     toolbar.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         //recyclerView.smoothScrollToPosition(0);
         recyclerView.scrollToPosition(0);
+        //if(x==0) {
+        //  Utils.changeToTheme(MainActivity.this, x);
+        //  x = 1;
+        //}
+        //else{
+        //  Utils.changeToTheme(MainActivity.this, x);
+        //  x=0;
+        //}
+
       }
     });
     toolbar.setOnLongClickListener(new View.OnLongClickListener() {
@@ -122,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Subreddi
 
   public void loadFirstTime(String subreddit) {
     if (dataset != null) dataset.clear();
-    RestClient.getInstance().OpenNewSub(subreddit).enqueue(new Callback<Subreddit>() {
+    restClient.OpenNewSub(subreddit).enqueue(new Callback<Subreddit>() {
       @Override public void onResponse(Call<Subreddit> call, Response<Subreddit> response) {
         dataset.addAll(response.body().data.children);
         //((SubAdapter)adapter).setDataset(dataset);
@@ -141,12 +157,12 @@ public class MainActivity extends AppCompatActivity implements Callback<Subreddi
   }
 
   private void loadMoreItems(String subreddit) {
-    RestClient.getInstance().OpenNewSub(subreddit, 25, afterResponse).enqueue(this);
+    restClient.OpenNewSub(subreddit, 25, afterResponse).enqueue(this);
   }
 
   private void loadMoreFrontPage() {
     // HERE YOU LOAD the next batch of items
-    RestClient.getInstance().OpenFrontPage(25, afterResponse).enqueue(this);
+    restClient.OpenFrontPage(25, afterResponse).enqueue(this);
   }
 
   @Override public void onResponse(Call<Subreddit> call, Response<Subreddit> response) {
@@ -164,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements Callback<Subreddi
   }
 
   public void loadFrontPage() {
-    RestClient.getInstance().OpenFrontPage().enqueue(new Callback<Subreddit>() {
+    restClient.OpenFrontPage().enqueue(new Callback<Subreddit>() {
       @Override public void onResponse(Call<Subreddit> call, Response<Subreddit> response) {
         dataset.addAll(response.body().data.children);
         //((SubAdapter)adapter).setDataset(dataset);

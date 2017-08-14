@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <declare-styleable name = "cardStyle">
+    <attr name="cardStyle" format="reference" />
+  </declare-styleable>
+
+  <declare-styleable name = "iconTint">
+    <attr name="iconTint" format="reference" />
+  </declare-styleable>
+
+  <declare-styleable name = "dividerColor">
+    <attr name="dividerColor" format="reference" />
+  </declare-styleable>
+</resources>

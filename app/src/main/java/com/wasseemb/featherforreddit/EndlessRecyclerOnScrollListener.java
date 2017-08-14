@@ -45,4 +45,3 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
     }
   }
 }
-
